@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Read(//tmp/**)",
+      "Bash(npm run dev > /tmp/vite.log 2>&1 & *)",
+      "Bash(pkill -f \"vite\")",
+      "Bash(docker compose *)"
+    ],
+    "additionalDirectories": [
+      "/tmp"
+    ]
+  }
+}
