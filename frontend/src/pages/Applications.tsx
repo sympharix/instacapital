@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
+import CreateApplicationModal from '../components/CreateApplicationModal';
 
 export default function Applications() {
   const navigate = useNavigate();
@@ -8,19 +9,22 @@ export default function Applications() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const res = await api.get('/applications/');
-        setApplications(res.data.results || res.data);
-      } catch (err) {
-        console.error('Error fetching applications:', err);
-      }
-      setLoading(false);
-    };
     fetchApplications();
   }, []);
+
+  const fetchApplications = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get('/applications/');
+      setApplications(res.data.results || res.data);
+    } catch (err) {
+      console.error('Error fetching applications:', err);
+    }
+    setLoading(false);
+  };
 
   const getStatusColor = (status: string) => {
     switch(status?.toUpperCase()) {
@@ -52,7 +56,9 @@ export default function Applications() {
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>download</span>
             Export
           </button>
-          <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary font-label-sm text-sm rounded-lg hover:bg-primary-container transition-colors shadow-sm">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-primary text-on-primary font-label-sm text-sm rounded-lg hover:bg-primary-container transition-colors shadow-sm">
             <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>add</span>
             New Application
           </button>
@@ -189,6 +195,12 @@ export default function Applications() {
           </div>
         )}
       </div>
+
+      <CreateApplicationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => { setIsModalOpen(false); fetchApplications(); }}
+      />
     </div>
   );
 }

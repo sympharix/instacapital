@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, setCredentials } from '../store/authSlice';
 import type { RootState } from '../store';
 import api from '../services/api';
+import CreateApplicationModal from '../components/CreateApplicationModal';
 
 const LOGO_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuBtF7nUe17Qy2GuUPxPnlVwv0FQ4Tbm_7IzJtBpg6yHotkZpkZMSTnlwo_esabPMs6dgQ5GjrsY8vfwGEx-Cer8Q5KT8pYsT6gDYjgvbiDcF9IelJdKHGWZsRv1WIJ-nXyQsk1lueiFDTg1LWCObEPrPmAkvEkkcbju0GgZTa4rXMk7Uf67zYBA7Vf0erNpZupBEUVdyI_zSZDnhla8xNQzaenq6bS8QhTLeHi9II19fPTdKoQUuY1QKQ";
 const AVATAR_URL = "https://lh3.googleusercontent.com/aida-public/AB6AXuDDpcUJr1aeqtcEQEpT8vWeKzT_OKA1Brz3W-vfkqJ2o3Fku9GhvnqEowkHND_6BBk9kpRxvhV8cgz_2GsH6tcJOgn_hKs_vjanYTTv2BJ2Q6vtl6RaDjIBjozriWwoRMcwlPRNEnNokDm6KrcTfLkVCP2GPDino6hbNUm378Ctbxah31_pjTLTlKhJLxtSbe4j24DJpqjPxW5zXwnmT7vZj0PEHKFGesNwmivNThsLJmgY7s_E1CK7LQ";
@@ -14,6 +15,7 @@ export default function DashboardLayout() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
   const token = useSelector((state: RootState) => state.auth.token);
+  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
 
   useEffect(() => {
     if (!user && token) {
@@ -57,7 +59,9 @@ export default function DashboardLayout() {
 
         {/* CTA */}
         <div className="px-4 mb-6">
-          <button className="w-full bg-primary text-on-primary py-3 rounded-xl font-label-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm">
+          <button
+            onClick={() => setIsAppModalOpen(true)}
+            className="w-full bg-primary text-on-primary py-3 rounded-xl font-label-sm flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm">
             <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>add</span>
             New Application
           </button>
@@ -150,6 +154,13 @@ export default function DashboardLayout() {
           <Outlet />
         </main>
       </div>
+
+      {/* Global Create Application Modal */}
+      <CreateApplicationModal
+        isOpen={isAppModalOpen}
+        onClose={() => setIsAppModalOpen(false)}
+        onSuccess={() => setIsAppModalOpen(false)}
+      />
     </div>
   );
 }
