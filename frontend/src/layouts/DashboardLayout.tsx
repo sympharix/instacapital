@@ -28,8 +28,8 @@ export default function DashboardLayout() {
     navigate('/login');
   };
 
-  const isSupportOrAdmin = user?.role === 'SUPPORT' || user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
-  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
+  const isSupportOrAdmin = user?.role === 'SUPPORT' || user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN' || user?.is_superuser;
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN' || user?.is_superuser;
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
