@@ -2,10 +2,7 @@ Django>=5.0
 djangorestframework
 djangorestframework-simplejwt
 psycopg2-binary
-celery
-redis
 django-cors-headers
 drf-yasg
 channels
 daphne
-channels-redis
