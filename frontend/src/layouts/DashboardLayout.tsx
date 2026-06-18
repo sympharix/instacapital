@@ -29,6 +29,7 @@ export default function DashboardLayout() {
   };
 
   const isSupportOrAdmin = user?.role === 'SUPPORT' || user?.role === 'SUPER_ADMIN' || user?.role === 'ADMIN';
+  const isSuperAdmin = user?.role === 'SUPER_ADMIN';
 
   const navItems = [
     { name: 'Dashboard', path: '/dashboard', icon: 'dashboard' },
@@ -37,6 +38,7 @@ export default function DashboardLayout() {
     { name: 'Documents', path: '/dashboard/documents', icon: 'folder_open' },
     { name: 'Agents', path: '/dashboard/agents', icon: 'groups' },
     ...(isSupportOrAdmin ? [{ name: 'Support', path: '/dashboard/support-tickets', icon: 'support_agent' }] : []),
+    ...(isSuperAdmin ? [{ name: 'Team Management', path: '/dashboard/team', icon: 'manage_accounts' }] : []),
     { name: 'Settings', path: '/dashboard/settings', icon: 'settings' },
   ];
 

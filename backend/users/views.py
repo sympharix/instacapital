@@ -115,3 +115,20 @@ class CustomerRegisterView(APIView):
             'lead_id': lead.id,
             'customer_id': customer.id
         }, status=status.HTTP_201_CREATED)
+
+from .permissions import IsSuperAdmin
+from .serializers import StaffUserCreateSerializer
+
+class UserManagementListCreateView(generics.ListCreateAPIView):
+    queryset = User.objects.all().order_by('-date_joined')
+    permission_classes = (IsSuperAdmin,)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return StaffUserCreateSerializer
+        return UserSerializer
+
+class UserManagementUpdateView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsSuperAdmin,)

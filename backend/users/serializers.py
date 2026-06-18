@@ -15,3 +15,15 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
+
+class StaffUserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'password', 'email', 'role', 'first_name', 'last_name')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        # We explicitly don't set is_staff=True here because Role defines permissions
+        # but we use create_user to ensure password hashing
+        user = User.objects.create_user(**validated_data)
+        return user

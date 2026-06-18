@@ -20,6 +20,7 @@ import Automations from './pages/Automations';
 import Integrations from './pages/Integrations';
 import SupportTickets from './pages/SupportTickets';
 import DashboardOverview from './pages/DashboardOverview';
+import TeamManagement from './pages/TeamManagement';
 import { useSelector } from 'react-redux';
 import type { RootState } from './store';
 import { WebSocketProvider } from './context/WebSocketContext';
@@ -59,6 +60,7 @@ function App() {
           <Route path="automations" element={<Automations />} />
           <Route path="integrations" element={<Integrations />} />
           <Route path="support-tickets" element={<SupportTickets />} />
+          <Route path="team" element={<TeamManagement />} />
         </Route>
       </Routes>
       </BrowserRouter>

@@ -1,6 +1,9 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import RegisterView, UserDetailView, SendOTPView, VerifyOTPView, CustomerRegisterView
+from .views import (
+    RegisterView, UserDetailView, SendOTPView, VerifyOTPView, CustomerRegisterView,
+    UserManagementListCreateView, UserManagementUpdateView
+)
 
 urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -10,4 +13,8 @@ urlpatterns = [
     path('me/', UserDetailView.as_view(), name='user_detail'),
     path('send-otp/', SendOTPView.as_view(), name='send_otp'),
     path('verify-otp/', VerifyOTPView.as_view(), name='verify_otp'),
+    
+    # Super Admin Management Endpoints
+    path('management/', UserManagementListCreateView.as_view(), name='user_management_list_create'),
+    path('management/<int:pk>/', UserManagementUpdateView.as_view(), name='user_management_update'),
 ]
