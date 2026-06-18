@@ -21,6 +21,7 @@ import Integrations from './pages/Integrations';
 import SupportTickets from './pages/SupportTickets';
 import DashboardOverview from './pages/DashboardOverview';
 import TeamManagement from './pages/TeamManagement';
+import Agents from './pages/Agents';
 import { useSelector } from 'react-redux';
 import type { RootState } from './store';
 import { WebSocketProvider } from './context/WebSocketContext';
@@ -61,6 +62,7 @@ function App() {
           <Route path="integrations" element={<Integrations />} />
           <Route path="support-tickets" element={<SupportTickets />} />
           <Route path="team" element={<TeamManagement />} />
+          <Route path="agents" element={<Agents />} />
         </Route>
       </Routes>
       </BrowserRouter>
