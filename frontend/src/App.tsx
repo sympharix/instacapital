@@ -22,6 +22,7 @@ import SupportTickets from './pages/SupportTickets';
 import DashboardOverview from './pages/DashboardOverview';
 import { useSelector } from 'react-redux';
 import type { RootState } from './store';
+import { WebSocketProvider } from './context/WebSocketContext';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -30,8 +31,9 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <WebSocketProvider>
+      <BrowserRouter>
+        <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/customer/login" element={<CustomerLogin />} />
@@ -59,7 +61,8 @@ function App() {
           <Route path="support-tickets" element={<SupportTickets />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </WebSocketProvider>
   );
 }
 

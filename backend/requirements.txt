@@ -6,3 +6,6 @@ celery
 redis
 django-cors-headers
 drf-yasg
+channels
+daphne
+channels-redis
