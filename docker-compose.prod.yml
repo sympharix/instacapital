@@ -2,6 +2,10 @@ services:
   db:
     image: postgres:15-alpine
     env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-instacapital}
+      POSTGRES_USER: ${POSTGRES_USER:-insta_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-insta_password}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
@@ -25,6 +29,11 @@ services:
       context: ./backend
       dockerfile: Dockerfile.prod
     env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://insta_user:insta_password@db:5432/instacapital}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL:-redis://redis:6379/0}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND:-redis://redis:6379/0}
     volumes:
       - media_data:/app/media
       - static_data:/app/staticfiles
@@ -41,6 +50,11 @@ services:
       dockerfile: Dockerfile.prod
     command: celery -A core worker -l info --concurrency 2
     env_file: .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgres://insta_user:insta_password@db:5432/instacapital}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+      CELERY_BROKER_URL: ${CELERY_BROKER_URL:-redis://redis:6379/0}
+      CELERY_RESULT_BACKEND: ${CELERY_RESULT_BACKEND:-redis://redis:6379/0}
     volumes:
       - media_data:/app/media
     restart: always
